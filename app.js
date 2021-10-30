@@ -3,9 +3,11 @@ const app = express();
 const bodyParser = require('body-parser');
 require('dotenv/config');
 const api = process.env.API_URL;
+const morgan = require('morgan');
 
 //middleware
 app.use(bodyParser.json());
+app.use(morgan('tiny'));
 
 app.get(`${api}/products`, (req, res) => {
     const product = {
