@@ -4,10 +4,21 @@ const bodyParser = require('body-parser');
 require('dotenv/config');
 const api = process.env.API_URL;
 const morgan = require('morgan');
-
+const mongoose = require('mongoose');
 //middleware
 app.use(bodyParser.json());
 app.use(morgan('tiny'));
+
+mongoose.connect(process.env.CONNECTION_STRING, 
+    {
+        useNewUrlParser: true, 
+        useUnifiedTopology: true,
+        dbName: 'haristore'
+    }).then(()=> {
+    console.log('Database Connection is ready...');
+}).catch((err)=> {
+    console.log(err);
+})
 
 app.get(`${api}/products`, (req, res) => {
     const product = {
