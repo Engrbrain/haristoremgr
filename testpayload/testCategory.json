@@ -1,0 +1,11 @@
+{
+    "name": "health",
+    "icon": "icon-health",
+    "color": "#050505"
+}
+
+{
+    "name": "fashion",
+    "icon": "icon-dress",
+    "color": "#050fdd"
+}

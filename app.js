@@ -5,7 +5,12 @@ const bodyParser = require('body-parser');
 require('dotenv/config');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const productsRouter = require('./routers/products');
+const productsRoutes = require('./routers/products');
+const categoriesRoutes = require('./routers/categories');
+const usersRoutes = require('./routers/users');
+const ordersRoutes = require('./routers/orders');
+const authJwt = require('./helpers/jwt');
+const errorHandler = require('./helpers/error-handler');
 //End of Constants to Import
 
 //Environment Variables
@@ -17,10 +22,16 @@ const conn = process.env.CONNECTION_STRING;
 //middleware
 app.use(bodyParser.json());
 app.use(morgan('tiny'));
+app.use(authJwt);
+app.use(errorHandler);
 //End of middleware
 
 //Routers
-app.use(`${api}/products`, productsRouter);
+app.use(`${api}/products`, productsRoutes);
+app.use(`${api}/categories`, categoriesRoutes);
+app.use(`${api}/users`, usersRoutes);
+app.use(`${api}/orders`, ordersRoutes);
+
 //End Routers
 
 //connect to database

@@ -1,6 +1,7 @@
 const {Category} = require('../models/category');
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 
 router.get(`/`, async (req, res) =>{
     const categoryList = await Category.find();
@@ -20,6 +21,9 @@ router.get('/:id', async(req, res)=> {
 });
 
 router.put('/:id', async (req, res)=> {
+    if(!mongoose.isValidObjectId(req.params.id)) {
+        res.status(400).send('Invalid Product Id');
+    }
     const category = await Category.findByIdAndUpdate(
         req.params.id,
         {
@@ -27,7 +31,8 @@ router.put('/:id', async (req, res)=> {
             icon: req.body.icon,
             color: req.body.color
 
-        }
+        },
+        {new: true}
     )
     if(!category)
     return res.status(404).send('The category cannot be created!')
@@ -43,7 +48,7 @@ router.post('/', async (req, res) => {
     });
     category = await category.save();
     if(!category)
-    return res.status(404).send('The category cannot be created!')
+    return res.status(404).send('The category cannot be Updated!')
 
     res.send(category);
 });
@@ -70,6 +75,8 @@ router.delete('/:id', (req, res) => {
             })
         });
 
-    });
+});
+
+
 
 module.exports =router;
